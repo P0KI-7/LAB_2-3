@@ -19,7 +19,7 @@ int main()
     cout << "Введите количетво измерений: ";
     cin >> n;
     float* data = new float[n];
-    cout << "Введите значения: ";
+    cout << "Введите значения:\n";
     inputData(data,n);
     cout << "Среднее значение: " << average(data,n) << endl;
     cout << "Минимум: " << minValue(data,n) << endl;
@@ -29,3 +29,12 @@ int main()
     
     return 0;
 }
+
+void inputData(float* p, int n)
+{
+    for (int i = 0; i < n; ++i)
+    {
+        cin >> *(p + i);
+    }
+}
+
