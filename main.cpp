@@ -7,14 +7,14 @@ void inputData(float* p, int n);
 float average(const float* p, int n);
 float minValue(const float* p, int n);
 float maxValue(const float* p, int n);
-float* filterAbroveAverage(float* p, int n, int& newCount);
+float* filterAboveAverage(float* p, int n, int& newCount);
 
 int main()
 {
     SetConsoleOutputCP(65001); // Переключаем консоль в UTF-8
     SetConsoleCP(65001);
 
-    int n, countAbroveAverage;
+    int n, countAboveAverage;
     cout << "\n=== Анализ сенсора ===\n";
     cout << "Введите количетво измерений: ";
     cin >> n;
@@ -25,16 +25,19 @@ int main()
     cout << "Минимум: " << minValue(data,n) << endl;
     cout << "Максимум: " << maxValue(data,n) << endl;
     
-    float* abroveAverageArray = filterAbroveAverage(data,n,countAbroveAverage);
-    cout << "Значения выше среднего:\n";
-    for (int i = 0; i < countAbroveAverage; ++i)
+    float* aboveAverageArray = filterAboveAverage(data,n,countAboveAverage);
+    if (countAboveAverage > 0)
     {
-        cout << *(abroveAverageArray+i) << " ";
+        cout << "Значения выше среднего:\n";
+        for (int i = 0; i < countAboveAverage; ++i)
+        {
+            cout << *(aboveAverageArray+i) << " ";
+        }
+        cout << '\n';
     }
-    cout << '\n';
-
+    else cout << "Нет значений выше среднего...\n";
     delete[] data;
-    delete[] abroveAverageArray;
+    delete[] aboveAverageArray;
 
     return 0;
 }
@@ -78,9 +81,9 @@ float maxValue(const float* p, int n)
     return max;
 }
 
-float* filterAbroveAverage(float* p, int n, int& newCount)
+float* filterAboveAverage(float* p, int n, int& newCount)
 {
-    int avg = average(p,n);
+    float avg = average(p,n);
     
     newCount = 0;
     for (int i = 0; i < n; ++i)
@@ -88,7 +91,7 @@ float* filterAbroveAverage(float* p, int n, int& newCount)
         if (*(p+i) > avg) newCount++;
     }
 
-    float* newArray = new float(newCount);
+    float* newArray = new float[newCount];
     int j = 0;
     for (int i = 0; i < n; ++i)
     {
